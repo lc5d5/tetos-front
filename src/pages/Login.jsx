@@ -18,7 +18,7 @@ const Login = () => {
                 if(type == "success"){
                     sessionStorage.setItem("token", token);
                     sessionStorage.setItem("usuario", JSON.stringify(usuario));
-                    navigate("/home");
+                    navigate("/dashboard");
                 }
             },
             onError: ({ response: { data: { type, description} } }) => {
