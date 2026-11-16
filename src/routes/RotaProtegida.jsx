@@ -3,6 +3,8 @@ import { AXIOS } from "../services";
 
 const RotaProtegida = ({ children }) => {
   const token = sessionStorage.getItem("token");
+  console.log(token);
+  
   const navigate = useNavigate();
 
   // Add a request interceptor
