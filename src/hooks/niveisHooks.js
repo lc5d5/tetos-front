@@ -13,8 +13,8 @@ export const useBuscarNiveis = () => {
 
 export const useCriarNiveis = () => {
     return useMutation({
-        queryFn: async () => {
-            const res = await AXIOS.post("/niveis");
+        mutationFn: async (dados) => {
+            const res = await AXIOS.post("/niveis", dados);
             return res.data;
         },
         onSuccess: () => {
@@ -27,7 +27,7 @@ export const useCriarNiveis = () => {
 
 export const useEditarNiveis = () => {
     return useMutation({
-        queryFn: async (dados, id) => {
+        mutationFn: async (dados, id) => {
             const res = await AXIOS.put(`/niveis/${id}`, dados);
             return res.data;
         },
@@ -41,7 +41,7 @@ export const useEditarNiveis = () => {
 
 export const useDeletarNiveis = () => {
     return useMutation({
-        queryFn: async (id) => {
+        mutationFn: async (id) => {
             const res = await AXIOS.delete(`/niveis/${id}`);
             return res.data;
         },

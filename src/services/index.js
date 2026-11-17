@@ -6,3 +6,11 @@ export const AXIOS = axios.create({
 });
 
 export const QUERYCLIENT = new QueryClient(); //armazena requisições
+
+AXIOS.interceptors.request.use((config) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
