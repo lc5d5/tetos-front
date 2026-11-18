@@ -6,20 +6,17 @@ import {
   useDeletarNiveis,
   useEditarNiveis,
 } from "../hooks/niveisHooks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Niveis = () => {
   const [mostrarCriar, setMostrarCriar] = useState(false);
   const [mostrarEditar, setMostrarEditar] = useState(false);
-  const [armazenaLinha, setArmazenaLinha] = useState(null);
   const { notification } = App.useApp();
   const { data: niveis, isLoading: loadingNiveis } = useBuscarNiveis();
   const { mutate: criarNivel, isLoading: loadingCriar } = useCriarNiveis();
   const { mutate: editarNivel, isLoading: loadingEditar } = useEditarNiveis();
-  const { mutate: deletarNivel, isLoading: loadingDeletar } =
-    useDeletarNiveis();
-
-  const [form] = Form.useForm();
+  const { mutate: deletarNivel } = useDeletarNiveis();
+  const [formEditar] = Form.useForm();
 
   function criar(dados) {
     criarNivel(dados, {
@@ -43,26 +40,9 @@ const Niveis = () => {
     });
   }
 
-  function armazenarLinha(linha) {
-    console.log("O que tem na linha da tabela:", linha);
-    setArmazenaLinha(linha);
-    setMostrarEditar(true);
-  }
-
-  useEffect(() => {
-    if (mostrarEditar && armazenaLinha) {
-      form.setFieldsValue({
-        nome: armazenaLinha.nome, // Preenche com o nome que veio da linha
-      });
-    }
-  }, [mostrarEditar, armazenaLinha, form]);
-
   function editar(dados) {
-    const armazenados = {
-      id: armazenaLinha?.id,
-      nome: dados.nome
-    }
-    editarNivel(armazenados, {
+    console.log(dados)
+    editarNivel(dados, {
       onSuccess: ({ type, description }) => {
         setMostrarEditar(false);
         notification[type]({
@@ -78,7 +58,6 @@ const Niveis = () => {
         notification[type]({
           description,
         });
-        console.log();
       },
     });
   }
@@ -127,8 +106,10 @@ const Niveis = () => {
                 <Button
                   icon={<LuPencil />}
                   type="primary"
-                  onClick={() => {
-                    armazenarLinha(linha);
+                  onClick={() => { 
+                    formEditar.setFieldValue("id", linha.id)
+                    formEditar.setFieldValue("nome", linha.nome);
+                    setMostrarEditar(true);
                   }}
                 />
                 <Popconfirm
@@ -141,7 +122,6 @@ const Niveis = () => {
                   <Button
                     icon={<LuTrash2 />}
                     type="primary"
-                    loading={loadingDeletar}
                   />
                 </Popconfirm>
               </div>
@@ -177,7 +157,17 @@ const Niveis = () => {
         onClose={() => setMostrarEditar(false)}
         destroyOnHidden={true}
       >
-        <Form form={form} layout="vertical" onFinish={editar}>
+        <Form 
+          form={formEditar}
+          layout="vertical" 
+          onFinish={editar}
+        >
+          <Form.Item
+            name="id"
+            hidden
+          >
+            <Input />
+          </Form.Item>          
           <Form.Item
             label="Novo nome:"
             name="nome"
