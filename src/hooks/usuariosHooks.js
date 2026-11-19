@@ -10,7 +10,7 @@ export const useLogin = () => {
     })
 }
 
-export const useBuscarUsuario = () => {
+export const useBuscarUsuarios = () => {
     return useQuery({
         queryKey: ["usuarios"],
         queryFn: async () => {
@@ -20,7 +20,7 @@ export const useBuscarUsuario = () => {
     })
 }
 
-export const useCriarUsuario = () => {
+export const useCriarUsuarios = () => {
     return useMutation({
         mutationFn: async (dados) => {
             const res = await AXIOS.post("/usuarios", dados);
@@ -34,10 +34,10 @@ export const useCriarUsuario = () => {
     })
 }
 
-export const useEditarUsuario = () => {
+export const useEditarUsuarios = () => {
     return useMutation({
-        mutationFn: async (dados, id) => {
-            const res = await AXIOS.put(`/usuarios/${id}`, dados);
+        mutationFn: async (dados) => {
+            const res = await AXIOS.put(`/usuarios/${dados.id}`, dados);
             return res.data;
         },
         onSuccess: () => {
@@ -48,7 +48,7 @@ export const useEditarUsuario = () => {
     })
 }
 
-export const useDeletarUsuario = () => {
+export const useDeletarUsuarios = () => {
     return useMutation({
         mutationFn: async (id) => {
             const res = await AXIOS.delete(`/usuarios/${id}`);

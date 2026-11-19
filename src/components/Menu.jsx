@@ -16,6 +16,8 @@ const Menu = () => {
                     <NavLink end to="/dashboard">Home</NavLink>
                     <NavLink end to="/dashboard/niveis">Níveis</NavLink> {/* levar em consideração a última palavra da rota */}
                     <NavLink end to="/dashboard/imoveis-tipo">Tipos de imóvel</NavLink>
+                    <NavLink end to="/dashboard/locatarios">Locatários</NavLink>
+                    <NavLink end to="/dashboard/usuarios">Usuários</NavLink>
                 </nav>
             </ConfigProvider>
         </header>
